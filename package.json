@@ -2,7 +2,7 @@
   "name": "mpvue-starter",
   "version": "0.0.1",
   "description": "mpvue starer for wechat miniapp",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "rollup -wm -c",
     "build": "rollup -c",
