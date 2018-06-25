@@ -4,8 +4,9 @@ import QS from 'query-string';
  * 获取标题设置内容
  * @param {*} vm vue instance
  */
-const getTitle = function (vm) {
-  const { title } = vm.$options;
+var getTitle = function getTitle(vm) {
+  var title = vm.$options.title;
+
   if (title) {
     return typeof title === 'function' ? title.call(vm) : title;
   }
@@ -15,11 +16,11 @@ const getTitle = function (vm) {
  * 设置标题
  * @param {*} vm vue instance
  */
-const setTitle = function (vm) {
-  const title = getTitle(vm);
+var setTitle = function setTitle(vm) {
+  var title = getTitle(vm);
   if (title) {
     wx.setNavigationBarTitle({
-      title
+      title: title
     });
   }
 };
@@ -28,8 +29,9 @@ const setTitle = function (vm) {
  * 获取分享设置
  * @param {*} vm vue instance
  */
-const getShareMessage = function (vm) {
-  const { shareMessage } = vm.$options;
+var getShareMessage = function getShareMessage(vm) {
+  var shareMessage = vm.$options.shareMessage;
+
   if (shareMessage) {
     return typeof shareMessage === 'function' ? shareMessage.call(vm) : shareMessage;
   }
@@ -39,7 +41,7 @@ const getShareMessage = function (vm) {
  * 用于小程序强制更新
  * 在小程序启动时检测
  */
-const appUpgrade = function (appAutoUpdate) {
+var appUpgrade = function appUpgrade(appAutoUpdate) {
   if (!appAutoUpdate) {
     return;
   }
@@ -47,9 +49,11 @@ const appUpgrade = function (appAutoUpdate) {
     return null;
   }
   // 获取更新上下文
-  const updateManager = wx.getUpdateManager();
+  var updateManager = wx.getUpdateManager();
   // 开始检测更新
-  updateManager.onCheckForUpdate(function ({ hasUpdate }) {
+  updateManager.onCheckForUpdate(function (_ref) {
+    var hasUpdate = _ref.hasUpdate;
+
     if (!hasUpdate) {
       return;
     }
@@ -74,104 +78,229 @@ const appUpgrade = function (appAutoUpdate) {
   return updateManager;
 };
 
-const handleShareAppMessage = function (vm) {
-  const { query } = vm.$mp.appOptions;
-  const { sharepath } = query;
+var asyncToGenerator = function (fn) {
+  return function () {
+    var gen = fn.apply(this, arguments);
+    return new Promise(function (resolve, reject) {
+      function step(key, arg) {
+        try {
+          var info = gen[key](arg);
+          var value = info.value;
+        } catch (error) {
+          reject(error);
+          return;
+        }
+
+        if (info.done) {
+          resolve(value);
+        } else {
+          return Promise.resolve(value).then(function (value) {
+            step("next", value);
+          }, function (err) {
+            step("throw", err);
+          });
+        }
+      }
+
+      return step("next");
+    });
+  };
+};
+
+var handleShareAppMessage = function handleShareAppMessage(vm) {
+  var query = vm.$mp.appOptions.query;
+  var sharepath = query.sharepath;
+
   if (sharepath == null) {
     return;
   }
-  const url = `${sharepath}?${QS.stringify(query)}`;
-  setTimeout(() => wx.navigateTo({ url }), 1000);
+  var url = sharepath + '?' + QS.stringify(query);
+  setTimeout(function () {
+    return wx.navigateTo({ url: url });
+  }, 1000);
 };
 
-function mixins (Vue, { store, shareData: defaultShareData = {} }) {
+function mixins (Vue, _ref) {
+  var store = _ref.store,
+      _ref$shareData = _ref.shareData;
+
   Vue.mixin({
     // 全局混合变量
     // 用于显示页面
-    data() {
+    data: function data() {
       return {
         loading: false
       };
     },
+
     // 页面启动数据预加载
-    async mounted() {
-      try {
-        const { $mp } = this;
-        if ($mp == null) {
-          return;
-        }
-        const {
-          asyncData = function () {}
-        } = this.$options;
-        this.loading = false;
-        wx.showLoading({
-          title: 'Loading',
-          mask: true
-        });
-        const data = await asyncData({
-          vm: this,
-          store,
-          route: $mp
-        });
-        if (data instanceof Object) {
-          Object.keys(data).forEach(key => {
-            Vue.set(this, key, data[key]);
-          });
-        }
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        setTitle(this);
-        wx.hideLoading();
-        this.loading = true;
+    mounted: function () {
+      var _ref2 = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _this = this;
+
+        var $mp, _$options$asyncData, asyncData, data;
+
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                $mp = this.$mp;
+
+                if (!($mp == null)) {
+                  _context.next = 4;
+                  break;
+                }
+
+                return _context.abrupt('return');
+
+              case 4:
+                _$options$asyncData = this.$options.asyncData, asyncData = _$options$asyncData === undefined ? function () {} : _$options$asyncData;
+
+                this.loading = false;
+                wx.showLoading({
+                  title: 'Loading',
+                  mask: true
+                });
+                _context.next = 9;
+                return asyncData({
+                  vm: this,
+                  store: store,
+                  route: $mp
+                });
+
+              case 9:
+                data = _context.sent;
+
+                if (data instanceof Object) {
+                  Object.keys(data).forEach(function (key) {
+                    Vue.set(_this, key, data[key]);
+                  });
+                }
+                _context.next = 16;
+                break;
+
+              case 13:
+                _context.prev = 13;
+                _context.t0 = _context['catch'](0);
+
+                console.warn(_context.t0);
+
+              case 16:
+                _context.prev = 16;
+
+                setTitle(this);
+                wx.hideLoading();
+                this.loading = true;
+                return _context.finish(16);
+
+              case 21:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[0, 13, 16, 21]]);
+      }));
+
+      function mounted() {
+        return _ref2.apply(this, arguments);
       }
-    },
-    async onShow() {
-      try {
-        const { $mp } = this;
-        if ($mp == null) {
-          return;
-        }
-        const {
-          updateData = function () {}
-        } = this.$options;
-        // app显示
-        if ($mp.mpType === 'app') {
-          // 处理分享信息
-          handleShareAppMessage(this);
-        }
-        const data = await updateData({
-          vm: this,
-          store,
-          route: $mp
-        });
-        if (data instanceof Object) {
-          Object.keys(data).forEach(key => {
-            Vue.set(this, key, data[key]);
-          });
-        }
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        setTitle(this);
+
+      return mounted;
+    }(),
+    onShow: function () {
+      var _ref3 = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var _this2 = this;
+
+        var $mp, _$options$updateData, updateData, data;
+
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                $mp = this.$mp;
+
+                if (!($mp == null)) {
+                  _context2.next = 4;
+                  break;
+                }
+
+                return _context2.abrupt('return');
+
+              case 4:
+                _$options$updateData = this.$options.updateData, updateData = _$options$updateData === undefined ? function () {} : _$options$updateData;
+                // app显示
+
+                if ($mp.mpType === 'app') {
+                  // 处理分享信息
+                  handleShareAppMessage(this);
+                }
+                _context2.next = 8;
+                return updateData({
+                  vm: this,
+                  store: store,
+                  route: $mp
+                });
+
+              case 8:
+                data = _context2.sent;
+
+                if (data instanceof Object) {
+                  Object.keys(data).forEach(function (key) {
+                    Vue.set(_this2, key, data[key]);
+                  });
+                }
+                _context2.next = 15;
+                break;
+
+              case 12:
+                _context2.prev = 12;
+                _context2.t0 = _context2['catch'](0);
+
+                console.warn(_context2.t0);
+
+              case 15:
+                _context2.prev = 15;
+
+                setTitle(this);
+                return _context2.finish(15);
+
+              case 18:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[0, 12, 15, 18]]);
+      }));
+
+      function onShow() {
+        return _ref3.apply(this, arguments);
       }
-    }
+
+      return onShow;
+    }()
   });
 }
 
 var share = {
-  onShareAppMessage() {
-    const { $mp } = this;
+  onShareAppMessage: function onShareAppMessage() {
+    var $mp = this.$mp;
+
     if ($mp == null) {
       return;
     }
-    const { appOptions, page, query } = $mp;
-    const shareData = getShareMessage(this);
-    const { path: rootPath } = appOptions;
-    const { route } = page;
-    const path = `${rootPath}?sharepath=/${route}&${QS.stringify(query)}`;
+    var appOptions = $mp.appOptions,
+        page = $mp.page,
+        query = $mp.query;
+
+    var shareData = getShareMessage(this);
+    var rootPath = appOptions.path;
+    var route = page.route;
+
+    var path = rootPath + '?sharepath=/' + route + '&' + QS.stringify(query);
     return Object.assign({}, {
-      path
+      path: path
     }, shareData);
   }
 };
@@ -187,22 +316,23 @@ var share = {
  * @version: 0.0.1
  */
 
-const install = function (Vue, options) {
-  const {
-    appAutoUpgrade = true,
-    store = {}
-  } = options;
+var install = function install(Vue, options) {
+  var _options$appAutoUpgra = options.appAutoUpgrade,
+      appAutoUpgrade = _options$appAutoUpgra === undefined ? true : _options$appAutoUpgra,
+      _options$store = options.store,
+      store = _options$store === undefined ? {} : _options$store;
 
   // add wechat miniapp auto upgrade
+
   appUpgrade(appAutoUpgrade);
   // add global mixin
   mixins(Vue, {
-    store
+    store: store
   });
 };
 
 var index = {
-  install
+  install: install
 };
 
 export default index;
