@@ -1,0 +1,43 @@
+{
+  "name": "mpvue-starter",
+  "version": "0.0.1",
+  "description": "mpvue starer for wechat miniapp",
+  "main": "index.js",
+  "scripts": {
+    "dev": "rollup -wm -c",
+    "build": "rollup -c",
+    "lint": "eslint src",
+    "flow": "flow check",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "repository": "git@github.com:kfw001/mpvue-starter.git",
+  "keywords": [
+    "mpvue",
+    "starter",
+    "share"
+  ],
+  "author": "helloLaoYang <aaron@codonas.cn>",
+  "license": "MIT",
+  "dependencies": {
+    "query-string": "^6.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.3",
+    "babel-preset-flow": "^6.23.0",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-flowtype": "^2.49.3",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "flow-bin": "^0.73.0",
+    "rollup": "^0.58.2",
+    "rollup-plugin-babel": "^3.0.4"
+  }
+}
