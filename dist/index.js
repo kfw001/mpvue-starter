@@ -9,9 +9,9 @@ var getTitle = function getTitle(vm) {
   var title = vm.$options.title;
 
   if (title) {
-    return typeof title === 'function' ? title.call(vm) : title;
+    return (typeof title === 'function' ? title.call(vm) : title) || {};
   }
-  return null;
+  return {};
 };
 /**
  * 设置标题
