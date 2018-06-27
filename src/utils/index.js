@@ -3,7 +3,7 @@
  * @param {*} vm vue instance
  */
 const getTitle = function (vm) {
-  const { title } = vm.$options
+  const {title} = vm.$options
   if (title) {
     return typeof title === 'function'
       ? title.call(vm)
@@ -16,7 +16,7 @@ const getTitle = function (vm) {
  * @param {*} vm vue instance
  */
 export const setTitle = function (vm) {
-  const { title } = getTitle(vm)
+  const {title} = getTitle(vm)
   if (title) {
     wx.setNavigationBarTitle({
       title

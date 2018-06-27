@@ -70,11 +70,11 @@ export default {
 
 ```
 
-* 在页面组件中含有loading字段，默认为`false`，在asyncData执行完成之后loading改变为`true`，用于在数据在加载完成后渲染页面时使用。
+* 在页面组件中含有loading字段，默认为`false`，在asyncData执行完成之后loading改变为`true`，用于在数据在加载完成后渲染页面时使用。
 
 - arguments
 
-参数 | 类型  | 说明
+参数 | 类型  | 说明
 --- | --- | --- 
 store | Object  | 插件注册时传入的对象
 route | Object  | 页面/程序启动参数
@@ -207,6 +207,6 @@ export default {
 
 // template
 
-<starter-share @create="getQRimg" ref="starter"></starter-share>
+<starter-share :create="getQRimg" ref="starter"></starter-share>
 
 ```

@@ -46,7 +46,6 @@ export default function (Vue, {store, shareData: defaultShareData = {}}) {
           })
         }
       } catch (e) {
-        console.warn(e)
       } finally {
         setTitle(this)
         wx.hideLoading()

@@ -18,7 +18,9 @@ var getTitle = function getTitle(vm) {
  * @param {*} vm vue instance
  */
 var setTitle = function setTitle(vm) {
-  var title = getTitle(vm);
+  var _getTitle = getTitle(vm),
+      title = _getTitle.title;
+
   if (title) {
     wx.setNavigationBarTitle({
       title: title
@@ -151,29 +153,27 @@ function mixins (Vue, _ref) {
                     Vue.set(_this, key, data[key]);
                   });
                 }
-                _context.next = 16;
+                _context.next = 15;
                 break;
 
               case 13:
                 _context.prev = 13;
                 _context.t0 = _context['catch'](0);
 
-                console.warn(_context.t0);
-
-              case 16:
-                _context.prev = 16;
+              case 15:
+                _context.prev = 15;
 
                 setTitle(this);
                 wx.hideLoading();
                 this.loading = true;
-                return _context.finish(16);
+                return _context.finish(15);
 
-              case 21:
+              case 20:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 13, 16, 21]]);
+        }, _callee, this, [[0, 13, 15, 20]]);
       }));
 
       function mounted() {

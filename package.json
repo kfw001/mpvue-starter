@@ -1,6 +1,6 @@
 {
   "name": "mpvue-starter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "mpvue starer for wechat miniapp",
   "main": "dist/index.js",
   "scripts": {
