@@ -11,7 +11,7 @@ const handleShareAppMessage = function (vm) {
   setTimeout(() => wx.navigateTo({url}), 1000)
 }
 
-export default function (Vue, {store, shareData: defaultShareData = {}}) {
+export default function (Vue, {store}) {
   Vue.mixin({
     // 全局混合变量
     // 用于显示页面

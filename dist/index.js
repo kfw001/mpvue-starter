@@ -97,8 +97,7 @@ var handleShareAppMessage = function handleShareAppMessage(vm) {
 };
 
 function mixins (Vue, _ref) {
-  var store = _ref.store,
-      _ref$shareData = _ref.shareData;
+  var store = _ref.store;
 
   Vue.mixin({
     // 全局混合变量
@@ -290,7 +289,8 @@ var share = {
  * @version: 0.0.1
  */
 
-var install = function install(Vue, options) {
+var install = function install(Vue) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var _options$appAutoUpgra = options.appAutoUpgrade,
       appAutoUpgrade = _options$appAutoUpgra === undefined ? true : _options$appAutoUpgra,
       _options$store = options.store,

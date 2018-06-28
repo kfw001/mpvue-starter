@@ -12,7 +12,7 @@ import mixins from './mixins/index'
 import {appUpgrade} from './utils/index'
 export {default as shareMixin} from './mixins/share'
 
-const install = function (Vue, options) {
+const install = function (Vue, options = {}) {
   const {
     appAutoUpgrade = true,
     store = {}
